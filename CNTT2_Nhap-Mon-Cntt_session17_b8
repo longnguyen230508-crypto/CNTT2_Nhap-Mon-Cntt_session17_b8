@@ -1,0 +1,14 @@
+Phần 1: Phân tích lỗ hổng & nguyên nhân
+1. Cơ chế Browser Cache: Trình duyệt nạp lại file cũ từ bộ nhớ RAM/ổ cứng ((from memory/disk cache) trong 2ms) thay vì gọi mới từ Server, khiến dữ liệu không được cập nhật.
+2. Nguy cơ Session Hijacking (XSS):
+Lệnh đánh cắp: document.cookie hoặc gửi qua fetch().
+Hậu quả: Thiếu HttpOnly cho phép mã độc đọc cookie; thiếu Secure dễ bị nghe lén trên HTTP. Kẻ gian có thể chiếm tài khoản bác sĩ để xem trộm bệnh án hoặc kê đơn sai lệch.
+Phần 2: Hoàn thiện giải pháp & Thao tác DevTools
+3. Hard Reload: Nhấn Ctrl + Shift + R (Windows/Linux) hoặc Cmd + Shift + R (macOS) để tải lại toàn bộ tài nguyên từ Server.
+4. Dòng lệnh Set-Cookie chuẩn an ninh:
+HTTP
+Set-Cookie: carepulse_doctor_session=TOKEN_XYZ883921983; Domain=carepulse.vn; Path=/; Expires=Wed, 21 Oct 2026 07:00:00 GMT; HttpOnly; Secure; SameSite=Strict
+5. 3 bước kiểm tra trên DevTools (F12):
+Mở F12.
+Vào tab Application > Storage > Cookies để kiểm tra các cờ bảo mật.
+Vào tab Network và tích chọn Disable cache để vô hiệu hóa bộ nhớ đệm tạm thời.
